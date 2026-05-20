@@ -1,0 +1,368 @@
+@tailwind base;
+@tailwind components;
+@tailwind utilities;
+
+@layer base {
+  :root {
+    /* Paper / cream — warm light grounds */
+    --paper: 244 237 225;
+    --paper-soft: 251 247 239;
+    --sand: 233 221 200;
+
+    /* Espresso / coffee — deep warm grounds */
+    --espresso: 24 18 14;
+    --coffee: 40 30 23;
+    --bean: 66 49 36;
+
+    /* Ink — text on light */
+    --ink: 35 27 20;
+    --ink-soft: 102 89 73;
+    --ink-mute: 150 136 116;
+
+    /* Cream — text on dark */
+    --cream: 240 231 214;
+    --cream-soft: 176 160 134;
+
+    /* Accents */
+    --olive: 111 110 80;
+    --warm-gray: 165 156 140;
+
+    color-scheme: light;
+  }
+
+  * {
+    border-color: rgb(var(--ink) / 0.1);
+  }
+
+  html {
+    -webkit-font-smoothing: antialiased;
+    -moz-osx-font-smoothing: grayscale;
+    text-rendering: optimizeLegibility;
+    scroll-behavior: smooth;
+  }
+
+  body {
+    background-color: rgb(var(--paper));
+    color: rgb(var(--ink));
+    font-family: var(--font-satoshi), system-ui, sans-serif;
+    overflow-x: hidden;
+  }
+
+  ::selection {
+    background: rgb(var(--olive) / 0.24);
+    color: rgb(var(--ink));
+  }
+
+  ::-webkit-scrollbar {
+    width: 10px;
+    height: 10px;
+  }
+  ::-webkit-scrollbar-track {
+    background: rgb(var(--sand));
+  }
+  ::-webkit-scrollbar-thumb {
+    background: rgb(var(--bean) / 0.4);
+    border-radius: 999px;
+    border: 3px solid rgb(var(--sand));
+  }
+  ::-webkit-scrollbar-thumb:hover {
+    background: rgb(var(--bean) / 0.62);
+  }
+
+  @media (prefers-reduced-motion: reduce) {
+    *,
+    *::before,
+    *::after {
+      animation-duration: 0.01ms !important;
+      animation-iteration-count: 1 !important;
+      transition-duration: 0.01ms !important;
+      scroll-behavior: auto !important;
+    }
+  }
+
+  :focus-visible {
+    outline: 1.5px solid rgb(var(--olive));
+    outline-offset: 4px;
+    border-radius: 2px;
+  }
+}
+
+@layer components {
+  /* ----------------------------------------------------------------
+     SHELL — centered editorial measure with generous gutters
+     ---------------------------------------------------------------- */
+  .shell {
+    width: 100%;
+    max-width: 1440px;
+    margin-inline: auto;
+    padding-inline: clamp(1.35rem, 5.2vw, 5.5rem);
+  }
+
+  /* ----------------------------------------------------------------
+     TYPE PRIMITIVES
+     ---------------------------------------------------------------- */
+  .eyebrow {
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: rgb(var(--ink-mute));
+  }
+
+  .eyebrow-cream {
+    font-size: 10.5px;
+    font-weight: 500;
+    letter-spacing: 0.34em;
+    text-transform: uppercase;
+    color: rgb(var(--cream-soft));
+  }
+
+  .index-mark {
+    font-size: 11px;
+    font-weight: 500;
+    letter-spacing: 0.2em;
+    color: rgb(var(--ink-mute));
+    font-variant-numeric: tabular-nums;
+  }
+
+  .display {
+    font-weight: 500;
+    letter-spacing: -0.035em;
+    text-wrap: balance;
+  }
+
+  /* Vertical Japanese — decorative, set in mincho */
+  .vrl {
+    writing-mode: vertical-rl;
+    text-orientation: upright;
+    font-family: "Shippori Mincho", "Noto Serif JP", serif;
+    letter-spacing: 0.32em;
+  }
+
+  .jp {
+    font-family: "Shippori Mincho", "Noto Serif JP", serif;
+  }
+
+  /* ----------------------------------------------------------------
+     HAIRLINES — thin warm structural rules
+     ---------------------------------------------------------------- */
+  .hairline {
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgb(var(--ink) / 0.16) 12%,
+      rgb(var(--ink) / 0.16) 88%,
+      transparent
+    );
+  }
+  .hairline-cream {
+    height: 1px;
+    width: 100%;
+    background: linear-gradient(
+      to right,
+      transparent,
+      rgb(var(--cream) / 0.18) 12%,
+      rgb(var(--cream) / 0.18) 88%,
+      transparent
+    );
+  }
+
+  /* ----------------------------------------------------------------
+     BUTTONS — quiet, tactile, premium
+     ---------------------------------------------------------------- */
+  .btn-solid {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.95rem 1.6rem;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: rgb(var(--paper));
+    background: rgb(var(--espresso));
+    border-radius: 999px;
+    overflow: hidden;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    box-shadow: 0 12px 30px -16px rgb(var(--espresso) / 0.7);
+  }
+  .btn-solid::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: rgb(var(--bean));
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 0;
+  }
+  .btn-solid > * {
+    position: relative;
+    z-index: 1;
+  }
+  .btn-solid:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 44px -18px rgb(var(--espresso) / 0.78);
+  }
+  .btn-solid:hover::after {
+    transform: scaleY(1);
+  }
+
+  .btn-line {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.6rem;
+    padding: 0.95rem 1.6rem;
+    font-size: 13px;
+    font-weight: 500;
+    color: rgb(var(--ink));
+    border: 1px solid rgb(var(--ink) / 0.22);
+    border-radius: 999px;
+    transition: background-color 0.5s ease, border-color 0.5s ease,
+      transform 0.5s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .btn-line:hover {
+    background: rgb(var(--ink) / 0.04);
+    border-color: rgb(var(--ink) / 0.4);
+    transform: translateY(-2px);
+  }
+
+  /* Animated text link — origin slides on hover */
+  .link-underline {
+    position: relative;
+    padding-bottom: 2px;
+  }
+  .link-underline::after {
+    content: "";
+    position: absolute;
+    left: 0;
+    right: 0;
+    bottom: 0;
+    height: 1px;
+    background: currentColor;
+    transform: scaleX(0);
+    transform-origin: right;
+    transition: transform 0.55s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .link-underline:hover::after {
+    transform: scaleX(1);
+    transform-origin: left;
+  }
+
+  /* Cream button — for use on espresso / coffee grounds */
+  .btn-cream {
+    position: relative;
+    display: inline-flex;
+    align-items: center;
+    gap: 0.7rem;
+    padding: 0.95rem 1.6rem;
+    font-size: 13px;
+    font-weight: 500;
+    letter-spacing: 0.01em;
+    color: rgb(var(--espresso));
+    background: rgb(var(--cream));
+    border-radius: 999px;
+    overflow: hidden;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1),
+      box-shadow 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+  }
+  .btn-cream::after {
+    content: "";
+    position: absolute;
+    inset: 0;
+    background: #fffdf8;
+    transform: scaleY(0);
+    transform-origin: bottom;
+    transition: transform 0.6s cubic-bezier(0.16, 1, 0.3, 1);
+    z-index: 0;
+  }
+  .btn-cream > * {
+    position: relative;
+    z-index: 1;
+  }
+  .btn-cream:hover {
+    transform: translateY(-2px);
+    box-shadow: 0 20px 44px -18px rgba(0, 0, 0, 0.6);
+  }
+  .btn-cream:hover::after {
+    transform: scaleY(1);
+  }
+
+  /* Reservation form input — minimal underline field on dark grounds */
+  .res-input {
+    width: 100%;
+    background: transparent;
+    border: 0;
+    border-bottom: 1px solid rgb(var(--cream) / 0.24);
+    border-radius: 0;
+    padding: 0.55rem 0;
+    font-size: 14px;
+    font-family: inherit;
+    color: rgb(var(--cream));
+    color-scheme: dark;
+    transition: border-color 0.4s ease;
+  }
+  .res-input::placeholder {
+    color: rgb(var(--cream-soft) / 0.5);
+  }
+  .res-input:focus {
+    outline: none;
+    border-bottom-color: rgb(var(--cream) / 0.7);
+  }
+  .res-input option {
+    background: #281e17;
+    color: rgb(var(--cream));
+  }
+
+  /* ----------------------------------------------------------------
+     PLATE — image / atmosphere surface used across sections
+     ---------------------------------------------------------------- */
+  .plate {
+    position: relative;
+    overflow: hidden;
+    background-color: rgb(var(--bean));
+    isolation: isolate;
+  }
+}
+
+@layer utilities {
+  .grain {
+    background-image: url("data:image/svg+xml;utf8,<svg xmlns='http://www.w3.org/2000/svg' width='200' height='200'><filter id='n'><feTurbulence type='fractalNoise' baseFrequency='0.82' numOctaves='2' stitchTiles='stitch'/><feColorMatrix values='0 0 0 0 0  0 0 0 0 0  0 0 0 0 0  0 0 0 0.5 0'/></filter><rect width='100%25' height='100%25' filter='url(%23n)'/></svg>");
+  }
+
+  .mask-b {
+    -webkit-mask-image: linear-gradient(to bottom, black 62%, transparent);
+    mask-image: linear-gradient(to bottom, black 62%, transparent);
+  }
+  .mask-t {
+    -webkit-mask-image: linear-gradient(to top, black 62%, transparent);
+    mask-image: linear-gradient(to top, black 62%, transparent);
+  }
+  .mask-x {
+    -webkit-mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 9%,
+      black 91%,
+      transparent
+    );
+    mask-image: linear-gradient(
+      to right,
+      transparent,
+      black 9%,
+      black 91%,
+      transparent
+    );
+  }
+
+  .text-balance {
+    text-wrap: balance;
+  }
+  .text-pretty {
+    text-wrap: pretty;
+  }
+}
