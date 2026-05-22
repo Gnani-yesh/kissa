@@ -48,13 +48,13 @@ export function Hero() {
           className="h-full w-full"
           vignette={false}
         />
-        {/* cinematic scrim — keeps the cream type legible without crushing the photo */}
+        {/* cinematic scrim — uniform dim + directional weight under the type */}
         <div
           aria-hidden
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(to top, rgba(14,9,6,0.82) 0%, rgba(14,9,6,0.4) 26%, rgba(14,9,6,0.06) 46%, transparent 60%), linear-gradient(to bottom, rgba(11,7,4,0.42) 0%, transparent 16%)",
+              "linear-gradient(108deg, rgba(6,4,2,0.62) 0%, rgba(6,4,2,0.22) 36%, transparent 60%), linear-gradient(to top, rgba(8,5,3,0.92) 0%, rgba(8,5,3,0.6) 26%, rgba(8,5,3,0.2) 48%, transparent 64%), linear-gradient(to bottom, rgba(8,5,3,0.55) 0%, transparent 18%), linear-gradient(180deg, rgba(10,7,4,0.38), rgba(10,7,4,0.38))",
           }}
         />
       </motion.div>
