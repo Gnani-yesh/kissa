@@ -48,13 +48,13 @@ export function Hero() {
           className="h-full w-full"
           vignette={false}
         />
-        {/* cinematic scrim — keeps the cream type legible over the photo */}
+        {/* cinematic scrim — keeps the cream type legible without crushing the photo */}
         <div
           aria-hidden
           className="absolute inset-0"
           style={{
             background:
-              "linear-gradient(to top, rgba(14,9,6,0.94) 0%, rgba(14,9,6,0.58) 28%, rgba(14,9,6,0.14) 48%, transparent 66%), linear-gradient(104deg, rgba(11,7,4,0.72) 0%, rgba(11,7,4,0.24) 34%, transparent 60%), linear-gradient(to bottom, rgba(11,7,4,0.5) 0%, transparent 17%)",
+              "linear-gradient(to top, rgba(14,9,6,0.82) 0%, rgba(14,9,6,0.4) 26%, rgba(14,9,6,0.06) 46%, transparent 60%), linear-gradient(to bottom, rgba(11,7,4,0.42) 0%, transparent 16%)",
           }}
         />
       </motion.div>
@@ -82,7 +82,7 @@ export function Hero() {
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             transition={{ duration: 2, ease, delay: 0.6 }}
-            className="jp pointer-events-none absolute -top-[6%] right-0 select-none text-[34vw] leading-none text-cream/[0.05] sm:text-[24vw] lg:text-[18vw]"
+            className="jp pointer-events-none absolute -top-[6%] right-0 select-none text-[34vw] leading-none text-cream/[0.09] sm:text-[24vw] lg:text-[18vw]"
           >
             珈琲
           </motion.span>
@@ -132,10 +132,7 @@ export function Hero() {
               <a href="#visit" className="btn-solid">
                 <span>Reserve a seat</span>
               </a>
-              <a
-                href="#coffee"
-                className="inline-flex items-center gap-2.5 rounded-full border border-cream/30 px-6 py-[0.95rem] text-[13px] font-medium text-cream transition-all duration-500 ease-cinematic hover:border-cream/65 hover:bg-cream/[0.06]"
-              >
+              <a href="#coffee" className="btn-line-cream">
                 Explore the coffee
               </a>
             </motion.div>

@@ -81,7 +81,7 @@ export function Philosophy() {
               </p>
             </Reveal>
             <Reveal delay={0.18} className="mt-10">
-              <span className="vrl hidden text-[12px] text-cream-soft/70 lg:inline-block">
+              <span className="vrl hidden text-[12px] text-cream-soft/90 lg:inline-block">
                 急がない、それがすべて
               </span>
             </Reveal>
@@ -140,9 +140,9 @@ export function Philosophy() {
                   {p.romaji}
                 </span>
               </div>
-              <h3 className="mt-5 text-[16px] font-medium text-cream">
+              <h4 className="mt-5 text-[16px] font-medium text-cream">
                 {p.name}
-              </h3>
+              </h4>
               <p className="mt-2.5 text-[13.5px] leading-[1.72] text-cream-soft">
                 {p.body}
               </p>

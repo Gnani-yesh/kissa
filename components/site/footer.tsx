@@ -70,13 +70,13 @@ export function Footer() {
 
         {/* oversized wordmark */}
         <div className="relative pt-6">
-          <span className="mask-b block select-none text-center text-[24vw] font-bold leading-[0.78] tracking-tightest text-cream/[0.07] lg:text-[20vw]">
+          <span className="mask-b block select-none text-center text-[24vw] font-bold leading-[0.78] tracking-tightest text-cream/[0.12] lg:text-[20vw]">
             Kissa
           </span>
         </div>
 
         {/* fine print */}
-        <div className="flex flex-col items-center gap-3 border-t border-cream/12 py-8 text-center sm:flex-row sm:justify-between sm:text-left">
+        <div className="flex flex-col items-center gap-4 border-t border-cream/12 py-8 text-center sm:flex-row sm:flex-wrap sm:justify-between sm:gap-6 sm:text-left">
           <span className="text-[11.5px] tracking-wide text-cream-soft">
             © 2026 Kissa Coffee — a quiet room for coffee.
           </span>

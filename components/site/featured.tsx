@@ -35,7 +35,9 @@ const CHAPTERS: Chapter[] = [
     specsTitle: "At a glance",
     specs: [
       { k: "Origin", v: "Yirgacheffe, Ethiopia" },
+      { k: "Producer", v: "Idido washing station" },
       { k: "Roast", v: "Light — filter" },
+      { k: "Cupping", v: "88 / 100" },
     ],
   },
   {
@@ -80,7 +82,6 @@ export function FeaturedCoffee() {
 
   const cupScale = useTransform(scrollYProgress, [0, 1], [0.92, 1.07]);
   const cupY = useTransform(scrollYProgress, [0, 1], [20, -22]);
-  const cupRotate = useTransform(scrollYProgress, [0, 1], [-4, 4]);
   const barScaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);
 
   return (
@@ -91,11 +92,7 @@ export function FeaturedCoffee() {
           {/* shared pinned cup */}
           <motion.div
             aria-hidden
-            style={
-              reduce
-                ? undefined
-                : { y: cupY, scale: cupScale, rotate: cupRotate }
-            }
+            style={reduce ? undefined : { y: cupY, scale: cupScale }}
             className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center"
           >
             <FeaturedCup />
@@ -207,10 +204,10 @@ function DesktopChapter({
         style={wordStyle}
         className="absolute left-1/2 top-1/2 z-0 w-screen -translate-x-1/2 -translate-y-1/2 select-none text-center"
       >
-        <span className="block text-[clamp(5rem,15.5vw,15rem)] font-bold uppercase leading-[0.82] tracking-tightest text-bean/[0.16]">
+        <span className="block text-[clamp(5rem,15.5vw,15rem)] font-bold uppercase leading-[0.82] tracking-tightest text-bean/[0.32]">
           {data.word[0]}
         </span>
-        <span className="block text-[clamp(5rem,15.5vw,15rem)] font-bold uppercase leading-[0.82] tracking-tightest text-bean/[0.16]">
+        <span className="block text-[clamp(5rem,15.5vw,15rem)] font-bold uppercase leading-[0.82] tracking-tightest text-bean/[0.32]">
           {data.word[1]}
         </span>
       </motion.div>
@@ -312,9 +309,6 @@ function FeaturedCup() {
         aria-hidden
         className="pointer-events-none absolute inset-0 border border-ink/10"
       />
-      <span className="absolute right-4 top-4 jp text-[12px] text-cream/75">
-        珈琲
-      </span>
     </div>
   );
 }

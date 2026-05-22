@@ -65,7 +65,7 @@ export function Menu() {
   return (
     <section
       id="menu"
-      className="relative bg-paper-soft py-[clamp(6.5rem,13vw,12.5rem)]"
+      className="relative bg-paper py-[clamp(6.5rem,13vw,12.5rem)]"
     >
       <div className="shell">
         <div className="grid grid-cols-1 gap-x-10 gap-y-8 lg:grid-cols-12">

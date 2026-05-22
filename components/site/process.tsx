@@ -111,7 +111,7 @@ function StepRow({ step, index }: { step: Step; index: number }) {
       >
         <Reveal>
           <div className="flex items-center gap-4">
-            <span className="text-[clamp(2.6rem,5vw,4rem)] font-bold leading-none tracking-tightest text-ink/12">
+            <span className="text-[clamp(2.6rem,5vw,4rem)] font-bold leading-none tracking-tightest text-ink/25">
               {step.no}
             </span>
             <span className="jp text-[20px] text-bean">{step.jp}</span>
@@ -148,7 +148,7 @@ function StepRow({ step, index }: { step: Step; index: number }) {
                 className="h-full w-full"
               />
             </motion.div>
-            <span className="absolute right-5 top-5 jp text-[13px] text-cream/80">
+            <span className="absolute right-4 top-4 inline-flex h-8 w-8 items-center justify-center rounded-full bg-espresso/55 backdrop-blur-sm jp text-[13px] text-cream">
               {step.jp}
             </span>
           </div>

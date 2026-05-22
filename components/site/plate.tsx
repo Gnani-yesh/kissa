@@ -193,7 +193,7 @@ export function Plate({
           className="pointer-events-none absolute inset-0"
           style={{
             boxShadow:
-              "inset 0 0 100px 10px rgba(15,10,7,0.46), inset 0 1px 0 rgba(255,240,214,0.08)",
+              "inset 0 0 90px 8px rgba(15,10,7,0.32), inset 0 1px 0 rgba(255,240,214,0.08)",
           }}
         />
       ) : null}

@@ -14,7 +14,7 @@ export default function HomePage() {
     <>
       <Atmosphere />
       <Navbar />
-      <main className="relative">
+      <main id="main-content" className="relative">
         <Hero />
         <FeaturedCoffee />
         <Philosophy />

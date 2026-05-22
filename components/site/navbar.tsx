@@ -34,7 +34,7 @@ export function Navbar() {
         className={cn(
           "fixed inset-x-0 top-0 z-50 transition-all duration-[600ms] ease-cinematic",
           scrolled
-            ? "border-b border-ink/10 bg-paper-soft/82 py-3.5 backdrop-blur-xl"
+            ? "border-b border-ink/14 bg-paper-soft/82 py-3.5 backdrop-blur-xl"
             : "border-b border-transparent py-6"
         )}
       >
@@ -91,6 +91,8 @@ export function Navbar() {
             <button
               onClick={() => setOpen(true)}
               aria-label="Open menu"
+              aria-expanded={open}
+              aria-controls="mobile-menu"
               className="flex h-10 w-10 items-center justify-center lg:hidden"
             >
               <span className="flex flex-col gap-[5px]">
@@ -115,6 +117,7 @@ export function Navbar() {
       <AnimatePresence>
         {open ? (
           <motion.div
+            id="mobile-menu"
             initial={{ opacity: 0 }}
             animate={{ opacity: 1 }}
             exit={{ opacity: 0 }}
