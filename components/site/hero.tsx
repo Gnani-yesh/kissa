@@ -1,12 +1,6 @@
 "use client";
 
-import { useRef } from "react";
-import {
-  motion,
-  useReducedMotion,
-  useScroll,
-  useTransform,
-} from "framer-motion";
+import { motion } from "framer-motion";
 import { Plate } from "./plate";
 
 const ease = [0.16, 1, 0.3, 1] as const;
@@ -18,29 +12,13 @@ const META = [
 ];
 
 export function Hero() {
-  const ref = useRef<HTMLElement>(null);
-  const reduce = useReducedMotion();
-  const { scrollYProgress } = useScroll({
-    target: ref,
-    offset: ["start start", "end start"],
-  });
-
-  const bgY = useTransform(scrollYProgress, [0, 1], ["0%", "16%"]);
-  const bgScale = useTransform(scrollYProgress, [0, 1], [1, 1.14]);
-  const contentY = useTransform(scrollYProgress, [0, 1], ["0%", "26%"]);
-  const fade = useTransform(scrollYProgress, [0, 0.62], [1, 0]);
-
   return (
     <section
       id="top"
-      ref={ref}
       className="relative min-h-[100svh] overflow-hidden bg-espresso"
     >
-      {/* parallax photographic ground */}
-      <motion.div
-        style={reduce ? undefined : { y: bgY, scale: bgScale }}
-        className="absolute inset-0 z-0"
-      >
+      {/* static photographic ground */}
+      <div className="absolute inset-0 z-0">
         <Plate
           variant="interiorWarm"
           src="/images/hero-room.jpg"
@@ -57,12 +35,9 @@ export function Hero() {
               "linear-gradient(108deg, rgba(6,4,2,0.62) 0%, rgba(6,4,2,0.22) 36%, transparent 60%), linear-gradient(to top, rgba(8,5,3,0.92) 0%, rgba(8,5,3,0.6) 26%, rgba(8,5,3,0.2) 48%, transparent 64%), linear-gradient(to bottom, rgba(8,5,3,0.55) 0%, transparent 18%), linear-gradient(180deg, rgba(10,7,4,0.38), rgba(10,7,4,0.38))",
           }}
         />
-      </motion.div>
+      </div>
 
-      <motion.div
-        style={reduce ? undefined : { y: contentY, opacity: fade }}
-        className="shell relative z-10 flex min-h-[100svh] flex-col justify-between pb-10 pt-32 sm:pt-36"
-      >
+      <div className="shell relative z-10 flex min-h-[100svh] flex-col justify-between pb-8 pt-28 sm:pt-32">
         {/* eyebrow */}
         <motion.div
           initial={{ opacity: 0, y: 16 }}
@@ -100,23 +75,17 @@ export function Hero() {
             <span className="h-28 w-px bg-cream/25" />
           </motion.div>
 
-          <div className="relative max-w-[1040px]">
-            <h1 className="display text-display-2xl text-cream">
+          <div className="relative max-w-[1200px]">
+            <h1 className="display text-cream text-[clamp(2.7rem,8vw,7.2rem)] leading-[0.94] tracking-tightest">
               <Line delay={0.28}>A quiet room</Line>
-              <Line delay={0.42}>
-                for{" "}
-                <span className="font-light tracking-tight-display text-cream-soft">
-                  slow
-                </span>{" "}
-                coffee.
-              </Line>
+              <Line delay={0.42}>for slow coffee.</Line>
             </h1>
 
             <motion.p
               initial={{ opacity: 0, y: 18 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.1, ease, delay: 0.72 }}
-              className="mt-8 max-w-[486px] text-pretty text-[15px] leading-[1.72] text-cream-soft sm:text-[16px]"
+              className="mt-7 max-w-[486px] text-pretty text-[15px] leading-[1.72] text-cream-soft sm:text-[16px]"
             >
               Kissa keeps the kissaten tradition — single-origin beans, ground
               and hand-poured to order, served without hurry in a space built
@@ -127,7 +96,7 @@ export function Hero() {
               initial={{ opacity: 0, y: 16 }}
               animate={{ opacity: 1, y: 0 }}
               transition={{ duration: 1.1, ease, delay: 0.86 }}
-              className="mt-10 flex flex-wrap items-center gap-3.5"
+              className="mt-8 flex flex-wrap items-center gap-3.5"
             >
               <a href="#visit" className="btn-solid">
                 <span>Reserve a seat</span>
@@ -144,10 +113,10 @@ export function Hero() {
           initial={{ opacity: 0 }}
           animate={{ opacity: 1 }}
           transition={{ duration: 1.4, ease, delay: 1.1 }}
-          className="mt-14"
+          className="mt-9"
         >
           <div className="hairline-cream" />
-          <div className="flex flex-wrap items-end justify-between gap-y-7 pt-6">
+          <div className="flex flex-wrap items-end justify-between gap-y-6 pt-5">
             <div className="grid grid-cols-1 gap-y-6 sm:grid-cols-3 sm:gap-x-14">
               {META.map((m) => (
                 <div key={m.label} className="flex flex-col gap-1.5">
@@ -157,17 +126,12 @@ export function Hero() {
               ))}
             </div>
 
-            <div className="flex items-center gap-3">
-              <span className="text-[10.5px] uppercase tracking-widest2 text-cream-soft">
-                Scroll
-              </span>
-              <span className="relative block h-12 w-px overflow-hidden bg-cream/20">
-                <span className="absolute left-0 top-0 h-3 w-px animate-scroll-cue bg-cream" />
-              </span>
-            </div>
+            <span className="jp hidden text-[13px] tracking-wide text-cream-soft/70 sm:block">
+              東京 · 谷中
+            </span>
           </div>
         </motion.div>
-      </motion.div>
+      </div>
     </section>
   );
 }

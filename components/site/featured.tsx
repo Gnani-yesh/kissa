@@ -5,6 +5,7 @@ import {
   motion,
   useReducedMotion,
   useScroll,
+  useSpring,
   useTransform,
   type MotionValue,
 } from "framer-motion";
@@ -80,19 +81,44 @@ export function FeaturedCoffee() {
     offset: ["start start", "end end"],
   });
 
-  const cupScale = useTransform(scrollYProgress, [0, 1], [0.92, 1.07]);
-  const cupY = useTransform(scrollYProgress, [0, 1], [20, -22]);
-  const barScaleX = useTransform(scrollYProgress, [0, 1], [0, 1]);
+  // spring-smoothed progress — eases every scroll-linked value so the
+  // chapters glide between states instead of snapping with the wheel
+  const progress = useSpring(scrollYProgress, {
+    stiffness: 42,
+    damping: 22,
+    mass: 0.7,
+    restDelta: 0.0004,
+  });
+
+  const cupScale = useTransform(progress, [0, 1], [0.84, 1.18]);
+  const cupY = useTransform(progress, [0, 0.5, 1], [48, -6, -58]);
+  const cupRotate = useTransform(progress, [0, 1], [-2.6, 2.6]);
+  const glowOpacity = useTransform(progress, [0, 0.5, 1], [0.28, 0.66, 0.34]);
+  const glowScale = useTransform(progress, [0, 0.5, 1], [0.82, 1.2, 0.96]);
+  const barScaleX = useTransform(progress, [0, 1], [0, 1]);
 
   return (
     <section id="coffee" className="relative bg-paper">
       {/* ---------- desktop: pinned cinematic scroll ---------- */}
-      <div ref={ref} className="relative hidden h-[340vh] lg:block">
+      <div ref={ref} className="relative hidden h-[500vh] lg:block">
         <div className="sticky top-0 h-[100svh] overflow-hidden">
+          {/* breathing amber glow behind the cup */}
+          <motion.div
+            aria-hidden
+            style={reduce ? { opacity: glowOpacity } : { opacity: glowOpacity, scale: glowScale }}
+            className="pointer-events-none absolute inset-0 z-10 flex items-center justify-center"
+          >
+            <div className="h-[78vh] w-[78vh] rounded-full bg-[radial-gradient(circle,rgba(190,150,95,0.5),rgba(190,150,95,0.12)_42%,transparent_68%)] blur-[6px]" />
+          </motion.div>
+
           {/* shared pinned cup */}
           <motion.div
             aria-hidden
-            style={reduce ? undefined : { y: cupY, scale: cupScale }}
+            style={
+              reduce
+                ? undefined
+                : { y: cupY, scale: cupScale, rotate: cupRotate }
+            }
             className="pointer-events-none absolute inset-0 z-20 flex items-center justify-center"
           >
             <FeaturedCup />
@@ -100,12 +126,7 @@ export function FeaturedCoffee() {
 
           {/* chapters */}
           {CHAPTERS.map((c, i) => (
-            <DesktopChapter
-              key={c.no}
-              i={i}
-              data={c}
-              progress={scrollYProgress}
-            />
+            <DesktopChapter key={c.no} i={i} data={c} progress={progress} />
           ))}
 
           {/* top bar */}
@@ -117,12 +138,20 @@ export function FeaturedCoffee() {
             <span className="index-mark">A single coffee, in three parts</span>
           </div>
 
-          {/* progress rail */}
+          {/* progress rail with chapter ticks */}
           <div className="absolute inset-x-0 bottom-0 z-40 h-px bg-ink/10">
             <motion.div
               style={{ scaleX: barScaleX }}
               className="h-full origin-left bg-bean"
             />
+            {[1 / 3, 2 / 3].map((p) => (
+              <span
+                key={p}
+                aria-hidden
+                style={{ left: `${p * 100}%` }}
+                className="absolute bottom-0 h-2 w-px -translate-x-1/2 bg-ink/20"
+              />
+            ))}
           </div>
         </div>
       </div>
@@ -172,7 +201,7 @@ function DesktopChapter({
   const seg = 1 / 3;
   const s = i * seg;
   const e = s + seg;
-  const lead = 0.055;
+  const lead = 0.13;
 
   const opStops =
     i === 0
@@ -186,32 +215,15 @@ function DesktopChapter({
   const yVals =
     i === 0 ? [0, 0, -54] : i === 2 ? [56, 0, 0, 0] : [56, 0, 0, -54];
 
-  const wordYVals =
-    i === 0 ? [0, 0, -120] : i === 2 ? [130, 0, 0, 0] : [130, 0, 0, -120];
-
   const opacity = useTransform(progress, opStops, opVals);
   const y = useTransform(progress, yStops, yVals);
-  const wordY = useTransform(progress, yStops, wordYVals);
+  // text settles into focus — blur clears as the chapter arrives
+  const blur = useTransform(opacity, [0, 1], ["blur(10px)", "blur(0px)"]);
 
-  const style = reduce ? { opacity } : { opacity, y };
-  const wordStyle = reduce ? { opacity } : { opacity, y: wordY };
+  const style = reduce ? { opacity } : { opacity, y, filter: blur };
 
   return (
     <>
-      {/* oversized chapter word — bleeds full width, behind the cup */}
-      <motion.div
-        aria-hidden
-        style={wordStyle}
-        className="absolute left-1/2 top-1/2 z-0 w-screen -translate-x-1/2 -translate-y-1/2 select-none text-center"
-      >
-        <span className="block text-[clamp(5rem,15.5vw,15rem)] font-bold uppercase leading-[0.82] tracking-tightest text-bean/[0.32]">
-          {data.word[0]}
-        </span>
-        <span className="block text-[clamp(5rem,15.5vw,15rem)] font-bold uppercase leading-[0.82] tracking-tightest text-bean/[0.32]">
-          {data.word[1]}
-        </span>
-      </motion.div>
-
       {/* editorial text — left */}
       <motion.div
         style={style}
@@ -294,20 +306,21 @@ function MobilePanel({ data }: { data: Chapter }) {
 
 function FeaturedCup() {
   return (
-    <div className="relative w-[clamp(258px,31vw,408px)]">
+    <div className="relative w-[clamp(258px,31vw,440px)]">
+      {/* rising steam — wisps off the crema */}
+      <div
+        aria-hidden
+        className="pointer-events-none absolute inset-x-0 top-[18%] flex justify-center gap-7"
+      >
+        <span className="steam-a h-28 w-2 rounded-full bg-gradient-to-t from-transparent via-white/55 to-transparent blur-[4px]" />
+        <span className="steam-b h-28 w-2 rounded-full bg-gradient-to-t from-transparent via-white/45 to-transparent blur-[5px]" />
+      </div>
+
       {/* eslint-disable-next-line @next/next/no-img-element */}
       <img
-        src="/images/featured-cup.jpg"
-        alt="A cup of single-origin filter coffee, hand poured"
-        className="aspect-square w-full object-cover shadow-[0_55px_95px_-42px_rgba(20,13,8,0.62)]"
-      />
-      <div
-        aria-hidden
-        className="grain pointer-events-none absolute inset-0 opacity-[0.32] mix-blend-soft-light"
-      />
-      <div
-        aria-hidden
-        className="pointer-events-none absolute inset-0 border border-ink/10"
+        src="/images/latte-cup.png"
+        alt="A latte with hand-poured latte art"
+        className="relative w-full object-contain [filter:drop-shadow(0_30px_55px_rgba(20,13,8,0.3))]"
       />
     </div>
   );
